@@ -245,6 +245,8 @@ module.exports = function(grunt) {
                     'src/directives/tiles.js',
                     'src/directives/legend.js',
                     'src/directives/geojson.js',
+                    'src/directives/dyngeojson.js',
+                    'src/directives/drawRectangle.js',
                     'src/directives/layers.js',
                     'src/directives/bounds.js',
                     'src/directives/markers.js',

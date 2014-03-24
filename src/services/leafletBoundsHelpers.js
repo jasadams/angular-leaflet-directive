@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").factory('leafletBoundsHelpers', function ($log, leafletHelpers) {
+angular.module("leaflet-directive").factory('leafletBoundsHelpers', ['$log', 'leafletHelpers',
+  function ($log, leafletHelpers) {
 
     var isArray = leafletHelpers.isArray,
         isNumber = leafletHelpers.isNumber;
@@ -43,4 +44,4 @@ angular.module("leaflet-directive").factory('leafletBoundsHelpers', function ($l
 
         }
     };
-});
+}]);
