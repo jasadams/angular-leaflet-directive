@@ -1,5 +1,4 @@
-angular.module("leaflet-directive").directive('dyngeojson', ['$log', '$rootScope', '$timeout', 'leafletData', 'leafletHelpers',
-    function ($log, $rootScope, $timeout, leafletData, leafletHelpers) {
+angular.module("leaflet-directive").directive('dyngeojson', function ($log, $rootScope, $timeout, leafletData, leafletHelpers) {
         return {
             restrict: "A",
             scope: false,
@@ -103,4 +102,4 @@ angular.module("leaflet-directive").directive('dyngeojson', ['$log', '$rootScope
                 });
             }
         };
-    }]);
+    });

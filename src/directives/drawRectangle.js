@@ -1,5 +1,4 @@
-angular.module("leaflet-directive").directive('drawRectangle', ['$window', '$compile', '$log', '$rootScope', 'leafletData', 'leafletHelpers',
-    '$timeout', function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout) {
+angular.module("leaflet-directive").directive('drawRectangle', function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout) {
         return {
             restrict: "A",
             scope: false,
@@ -129,39 +128,19 @@ angular.module("leaflet-directive").directive('drawRectangle', ['$window', '$com
 
                     var scrollTimeout = null;
 
-                    function autoScroll(x, y, bounds) {
+                    function autoScroll(x, y, movingCorner) {
 
                         if(scrollTimeout !== null) {
                             clearTimeout(scrollTimeout);
                         }
 
-                        var zoom = map.getZoom();
-
-                        var minX = long2x(Math.min(bounds[0].lng, bounds[1].lng),zoom);
-                        var maxX = long2x(Math.max(bounds[0].lng, bounds[1].lng),zoom);
-                        var maxY = lat2y(Math.min(bounds[0].lat, bounds[1].lat),zoom);
-                        var minY = lat2y(Math.max(bounds[0].lat, bounds[1].lat),zoom);
-
-                        maxX += x;
-                        minX += x;
-                        maxY += y;
-                        minY += y;
-
-                        var newBounds = [
-                            {
-                                lng: x2long(minX, zoom),
-                                lat: y2lat(minY, zoom)
-                            },
-                            {
-                                lng: x2long(maxX, zoom),
-                                lat: y2lat(maxY, zoom)
-                            }
-                        ];
                         if (rectangle) {
-                            rectangle.setBounds(newBounds);
+                            var zoom = map.getZoom();
+                            movingCorner.lng = x2long(long2x(movingCorner.lng,zoom) + x,zoom);
+                            movingCorner.lat = y2lat(lat2y(movingCorner.lat,zoom) + y,zoom);
+                            rectangle.setBounds([startCorner, movingCorner]);
                             map.panBy([x, y], { animate: false });
-
-                            scrollTimeout = setTimeout(function() { autoScroll(x,y, newBounds); }, 10);
+                            scrollTimeout = setTimeout(function() { autoScroll(x,y, movingCorner); }, 10);
                         }
                     }
 
@@ -183,10 +162,11 @@ angular.module("leaflet-directive").directive('drawRectangle', ['$window', '$com
                         var scrollZoneHeight = 50;
 
                         function getScrollAmount(edgeDistance) {
-                            var panStepSize = 5;
+                            var panStepSize = 10;
                             var edgeFactor = edgeDistance < 1 ? 1 : edgeDistance;
                             return Math.round((((scrollZoneHeight-edgeFactor)/scrollZoneHeight) * panStepSize) + 0.5);
                         }
+
                         if (bMousedown && (mode === 'select' || mode === 'erase')) {
                             var currentCorner = e.latlng;
                             var bounds = [startCorner, currentCorner];
@@ -227,7 +207,7 @@ angular.module("leaflet-directive").directive('drawRectangle', ['$window', '$com
                                 clearTimeout(scrollTimeout);
                                 scrollTimeout = null;
                             } else {
-                                autoScroll(x,y,bounds);
+                                autoScroll(x,y,currentCorner);
                             }
 
                         } else {
@@ -251,4 +231,4 @@ angular.module("leaflet-directive").directive('drawRectangle', ['$window', '$com
             }
         };
     }
-]);
+);
