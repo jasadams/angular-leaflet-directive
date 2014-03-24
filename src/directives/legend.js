@@ -1,5 +1,4 @@
-angular.module("leaflet-directive").directive('legend', ['$log', '$http', 'leafletHelpers', 'leafletLegendHelpers',
-  function ($log, $http, leafletHelpers, leafletLegendHelpers) {
+angular.module("leaflet-directive").directive('legend', function ($log, $http, leafletHelpers, leafletLegendHelpers) {
     return {
         restrict: "A",
         scope: false,
@@ -53,4 +52,4 @@ angular.module("leaflet-directive").directive('legend', ['$log', '$http', 'leafl
             });
         }
     };
-}]);
+});

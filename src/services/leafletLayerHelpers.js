@@ -1,5 +1,4 @@
-angular.module("leaflet-directive").factory('leafletLayerHelpers', ['$rootScope', '$log', 'leafletHelpers',
- function ($rootScope, $log, leafletHelpers) {
+angular.module("leaflet-directive").factory('leafletLayerHelpers', function ($rootScope, $log, leafletHelpers) {
     var Helpers = leafletHelpers,
         isString = leafletHelpers.isString,
         isObject = leafletHelpers.isObject,
@@ -208,4 +207,4 @@ angular.module("leaflet-directive").factory('leafletLayerHelpers', ['$rootScope'
             return layerTypes[layerDefinition.type].createLayer(params);
         }
     };
-}]);
+});

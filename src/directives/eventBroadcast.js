@@ -1,5 +1,4 @@
-angular.module("leaflet-directive").directive('eventBroadcast', ['$log', '$rootScope', 'leafletHelpers', 'leafletEvents',
-  function ($log, $rootScope, leafletHelpers, leafletEvents) {
+angular.module("leaflet-directive").directive('eventBroadcast', function ($log, $rootScope, leafletHelpers, leafletEvents) {
     return {
         restrict: "A",
         scope: false,
@@ -109,4 +108,4 @@ angular.module("leaflet-directive").directive('eventBroadcast', ['$log', '$rootS
             });
         }
     };
-}]);
+});

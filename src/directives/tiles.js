@@ -1,5 +1,4 @@
-angular.module("leaflet-directive").directive('tiles', ['$log', 'leafletData', 'leafletMapDefaults', 'leafletHelpers',
-  function ($log, leafletData, leafletMapDefaults, leafletHelpers) {
+angular.module("leaflet-directive").directive('tiles', function ($log, leafletData, leafletMapDefaults, leafletHelpers) {
     return {
         restrict: "A",
         scope: false,
@@ -65,4 +64,4 @@ angular.module("leaflet-directive").directive('tiles', ['$log', 'leafletData', '
             });
         }
     };
-}]);
+});

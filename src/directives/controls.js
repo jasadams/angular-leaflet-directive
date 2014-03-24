@@ -1,4 +1,4 @@
-angular.module("leaflet-directive").directive('controls', ['$log', 'leafletHelpers', function ($log, leafletHelpers) {
+angular.module("leaflet-directive").directive('controls', function ($log, leafletHelpers) {
     return {
         restrict: "A",
         scope: false,
@@ -37,4 +37,4 @@ angular.module("leaflet-directive").directive('controls', ['$log', 'leafletHelpe
             });
         }
     };
-}]);
+});
