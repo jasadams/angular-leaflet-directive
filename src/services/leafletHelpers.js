@@ -1,4 +1,4 @@
-angular.module("leaflet-directive").factory('leafletHelpers', function ($q, $log) {
+angular.module("leaflet-directive").factory('leafletHelpers', ['$q', '$log', function ($q, $log) {
 
     function _obtainEffectiveMapId(d, mapId) {
         var id, i;
@@ -288,4 +288,4 @@ angular.module("leaflet-directive").factory('leafletHelpers', function ($q, $log
             }
         }
     };
-});
+}]);

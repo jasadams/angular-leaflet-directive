@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").service('leafletData', function ($log, $q, leafletHelpers) {
+angular.module("leaflet-directive").service('leafletData', ['$log', '$q', 'leafletHelpers',
+  function ($log, $q, leafletHelpers) {
     var getDefer = leafletHelpers.getDefer,
         getUnresolvedDefer = leafletHelpers.getUnresolvedDefer,
         setResolvedDefer = leafletHelpers.setResolvedDefer;
@@ -80,4 +81,4 @@ angular.module("leaflet-directive").service('leafletData', function ($log, $q, l
         var defer = getDefer(geoJSON, scopeId);
         return defer.promise;
     };
-});
+}]);

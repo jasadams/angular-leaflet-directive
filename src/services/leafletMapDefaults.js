@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").factory('leafletMapDefaults', function ($q, leafletHelpers) {
+angular.module("leaflet-directive").factory('leafletMapDefaults', ['$q', 'leafletHelpers',
+  function ($q, leafletHelpers) {
     function _getDefaults() {
         return {
             keyboard: true,
@@ -137,5 +138,5 @@ angular.module("leaflet-directive").factory('leafletMapDefaults', function ($q, 
             return newDefaults;
         }
     };
-});
+}]);
 

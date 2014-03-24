@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").factory('leafletEvents', function ($rootScope, $q, $log, leafletHelpers) {
+angular.module("leaflet-directive").factory('leafletEvents', ['$rootScope', '$q', '$log', 'leafletHelpers',
+ function ($rootScope, $q, $log, leafletHelpers) {
     var safeApply = leafletHelpers.safeApply,
         isDefined = leafletHelpers.isDefined,
         isObject = leafletHelpers.isObject,
@@ -412,5 +413,5 @@ angular.module("leaflet-directive").factory('leafletEvents', function ($rootScop
         }
 
     };
-});
+}]);
 

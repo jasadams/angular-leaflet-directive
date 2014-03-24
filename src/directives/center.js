@@ -1,4 +1,4 @@
-angular.module("leaflet-directive").directive('center',
+angular.module("leaflet-directive").directive('center', ['$log', '$q', '$location', 'leafletMapDefaults', 'leafletHelpers',
     function ($log, $q, $location, leafletMapDefaults, leafletHelpers) {
 
     var isDefined     = leafletHelpers.isDefined,
@@ -163,4 +163,4 @@ angular.module("leaflet-directive").directive('center',
             });
         }
     };
-});
+}]);

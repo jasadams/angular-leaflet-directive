@@ -1,4 +1,6 @@
-angular.module("leaflet-directive", []).directive('leaflet', function ($q, leafletData, leafletMapDefaults, leafletHelpers, leafletEvents) {
+angular.module("leaflet-directive", []).directive('leaflet', ['$q', 'leafletData', 'leafletMapDefaults',
+  'leafletHelpers', 'leafletEvents',
+  function ($q, leafletData, leafletMapDefaults, leafletHelpers, leafletEvents) {
     var _leafletMap;
     return {
         restrict: "EA",
@@ -11,6 +13,7 @@ angular.module("leaflet-directive", []).directive('leaflet', function ($q, leafl
             markers: '=markers',
             legend: '=legend',
             geojson: '=geojson',
+            dyngeojson: '=dyngeojson',
             paths: '=paths',
             tiles: '=tiles',
             layers: '=layers',
@@ -101,4 +104,4 @@ angular.module("leaflet-directive", []).directive('leaflet', function ($q, leafl
             });
         }
     };
-});
+}]);

@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").directive('bounds', function ($log, $timeout, leafletHelpers, leafletBoundsHelpers) {
+angular.module("leaflet-directive").directive('bounds', ['$log', '$timeout', 'leafletHelpers', 'leafletBoundsHelpers',
+  function ($log, $timeout, leafletHelpers, leafletBoundsHelpers) {
     return {
         restrict: "A",
         scope: false,
@@ -63,4 +64,4 @@ angular.module("leaflet-directive").directive('bounds', function ($log, $timeout
             });
         }
     };
-});
+}]);

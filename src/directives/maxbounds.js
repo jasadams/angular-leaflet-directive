@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").directive('maxbounds', function ($log, leafletMapDefaults, leafletBoundsHelpers) {
+angular.module("leaflet-directive").directive('maxbounds', ['$log', 'leafletMapDefaults', 'leafletBoundsHelpers',
+  function ($log, leafletMapDefaults, leafletBoundsHelpers) {
     return {
         restrict: "A",
         scope: false,
@@ -28,4 +29,4 @@ angular.module("leaflet-directive").directive('maxbounds', function ($log, leafl
             });
         }
     };
-});
+}]);

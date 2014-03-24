@@ -1,4 +1,6 @@
-angular.module("leaflet-directive").factory('leafletControlHelpers', function ($rootScope, $log, leafletHelpers, leafletMapDefaults) {
+angular.module("leaflet-directive").factory('leafletControlHelpers', ['$rootScope', '$log', 'leafletHelpers',
+  'leafletMapDefaults',
+  function ($rootScope, $log, leafletHelpers, leafletMapDefaults) {
     var isObject = leafletHelpers.isObject,
         isDefined = leafletHelpers.isDefined;
     var _layersControl;
@@ -65,4 +67,4 @@ angular.module("leaflet-directive").factory('leafletControlHelpers', function ($
             return mustBeLoaded;
         }
     };
-});
+}]);

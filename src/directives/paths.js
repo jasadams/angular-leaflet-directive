@@ -1,4 +1,6 @@
-angular.module("leaflet-directive").directive('paths', function ($log, leafletData, leafletMapDefaults, leafletHelpers, leafletPathsHelpers, leafletEvents) {
+angular.module("leaflet-directive").directive('paths', ['$log', 'leafletData', 'leafletMapDefaults', 'leafletHelpers',
+  'leafletPathsHelpers', 'leafletEvents',
+  function ($log, leafletData, leafletMapDefaults, leafletHelpers, leafletPathsHelpers, leafletEvents) {
     return {
         restrict: "A",
         scope: false,
@@ -78,4 +80,4 @@ angular.module("leaflet-directive").directive('paths', function ($log, leafletDa
             });
         }
     };
-});
+}]);

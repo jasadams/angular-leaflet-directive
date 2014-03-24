@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").factory('leafletPathsHelpers', function ($rootScope, $log, leafletHelpers) {
+angular.module("leaflet-directive").factory('leafletPathsHelpers', ['$rootScope', '$log', 'leafletHelpers',
+  function ($rootScope, $log, leafletHelpers) {
     var isDefined = leafletHelpers.isDefined,
         isArray = leafletHelpers.isArray,
         isNumber = leafletHelpers.isNumber,
@@ -249,4 +250,4 @@ angular.module("leaflet-directive").factory('leafletPathsHelpers', function ($ro
             return pathTypes[path.type].createPath(options);
         }
     };
-});
+}]);

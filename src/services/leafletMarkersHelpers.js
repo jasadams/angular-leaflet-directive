@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").factory('leafletMarkersHelpers', function ($rootScope, leafletHelpers, $log) {
+angular.module("leaflet-directive").factory('leafletMarkersHelpers', ['$rootScope', 'leafletHelpers', '$log',
+  function ($rootScope, leafletHelpers, $log) {
 
     var isDefined = leafletHelpers.isDefined,
         MarkerClusterPlugin = leafletHelpers.MarkerClusterPlugin,
@@ -320,4 +321,4 @@ angular.module("leaflet-directive").factory('leafletMarkersHelpers', function ($
             }, true);
         }
     };
-});
+}]);

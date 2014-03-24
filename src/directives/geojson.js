@@ -1,4 +1,5 @@
-angular.module("leaflet-directive").directive('geojson', function ($log, $rootScope, leafletData, leafletHelpers) {
+angular.module("leaflet-directive").directive('geojson', ['$log', '$rootScope', 'leafletData', 'leafletHelpers',
+  function ($log, $rootScope, leafletData, leafletHelpers) {
     return {
         restrict: "A",
         scope: false,
@@ -69,4 +70,4 @@ angular.module("leaflet-directive").directive('geojson', function ($log, $rootSc
             });
         }
     };
-});
+}]);

@@ -1,4 +1,6 @@
-angular.module("leaflet-directive").directive('layers', function ($log, $q, leafletData, leafletHelpers, leafletLayerHelpers, leafletControlHelpers) {
+angular.module("leaflet-directive").directive('layers', ['$log', '$q', 'leafletData', 'leafletHelpers',
+  'leafletLayerHelpers', 'leafletControlHelpers',
+  function ($log, $q, leafletData, leafletHelpers, leafletLayerHelpers, leafletControlHelpers) {
     var _leafletLayers;
 
     return {
@@ -162,4 +164,4 @@ angular.module("leaflet-directive").directive('layers', function ($log, $q, leaf
             });
         }
     };
-});
+}]);
