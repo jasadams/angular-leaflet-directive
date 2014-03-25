@@ -20,31 +20,30 @@ angular.module("leaflet-directive").directive('bounds', function ($log, $timeout
             };
 
             mapController.getMap().then(function(map) {
+                leafletScope.$on("boundsChanged", function(event) {
+                    var scope = event.currentScope;
+                    var bounds = map.getBounds();
+                    $log.debug("updated map bounds...", bounds);
+                    if (emptyBounds(bounds)) {
+                        return;
+                    }
+                    var newScopeBounds = {
+                        northEast: {
+                            lat: bounds._northEast.lat,
+                            lng: bounds._northEast.lng
+                        },
+                        southWest: {
+                            lat: bounds._southWest.lat,
+                            lng: bounds._southWest.lng
+                        }
+                    };
+                    if (!angular.equals(scope.bounds, newScopeBounds)) {
+                        $log.debug("Need to update scope bounds.");
+                        scope.bounds = newScopeBounds;
+                    }
+                });
                 map.whenReady(function() {
                     centerController.getCenter().then(function() {
-                        leafletScope.$on("boundsChanged", function(event) {
-                            var scope = event.currentScope;
-                            var bounds = map.getBounds();
-                            $log.debug("updated map bounds...", bounds);
-                            if (emptyBounds(bounds)) {
-                                return;
-                            }
-                            var newScopeBounds = {
-                                northEast: {
-                                    lat: bounds._northEast.lat,
-                                    lng: bounds._northEast.lng
-                                },
-                                southWest: {
-                                    lat: bounds._southWest.lat,
-                                    lng: bounds._southWest.lng
-                                }
-                            };
-                            if (!angular.equals(scope.bounds, newScopeBounds)) {
-                                $log.debug("Need to update scope bounds.");
-                                scope.bounds = newScopeBounds;
-                            }
-                        });
-
                         leafletScope.$watch('bounds', function(bounds) {
                             $log.debug("updated bounds...", bounds);
                             if (!isDefined(bounds)) {
