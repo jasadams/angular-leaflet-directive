@@ -3,6 +3,7 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
             restrict: "A",
             scope: false,
             replace: false,
+            priority: -10,
             require: 'leaflet',
 
             link: function (scope, element, attrs, controller) {

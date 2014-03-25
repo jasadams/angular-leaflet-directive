@@ -15,6 +15,24 @@ angular.module("leaflet-directive").directive('controls', function ($log, leafle
                 controls = leafletScope.controls;
 
             controller.getMap().then(function(map) {
+                if (isDefined(L.Control.Pan) && isDefined(controls.pan)) {
+
+                    var panOptions = {
+                        position: 'topleft',
+                        panOffset: 500
+                    };
+                    angular.extend(panOptions, controls.pan.options);
+                    var panControl = new L.Control.Pan(panOptions);
+                    map.addControl(panControl);
+                }
+                if (isDefined(controls.zoom)) {
+                    var zoomOptions = {
+                        position: 'topleft'
+                    };
+                    angular.extend(zoomOptions, controls.zoom.options);
+                    var zoomControl = new L.Control.Zoom(zoomOptions);
+                    map.addControl(zoomControl);
+                }
                 if (isDefined(L.Control.Draw) && isDefined(controls.draw)) {
 					var drawnItems = new L.FeatureGroup();
 					map.addLayer(drawnItems);
