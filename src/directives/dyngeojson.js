@@ -12,7 +12,6 @@ angular.module("leaflet-directive").directive('dyngeojson', function ($log, $roo
                     leafletGeoJSON = {};
 
                 var dyngeojson = scope.$eval(attrs.dyngeojson);
-                var currentResolution;
                 var _loadedFeatures = {};
                 controller.getMap().then(function (map) {
                     if (!(isDefined(dyngeojson))) {
@@ -73,32 +72,26 @@ angular.module("leaflet-directive").directive('dyngeojson', function ($log, $roo
 
                     function addFeature(featureId, oFeature) {
                         setTimeout(function () {
-                            if (!_loadedFeatures.hasOwnProperty(featureId)) {
+                            if (!_loadedFeatures.hasOwnProperty(oFeature.id)) {
                                 leafletGeoJSON.addData(oFeature);
                             } else {
-                                leafletGeoJSON.removeLayer(_loadedFeatures[featureId]);
+                                leafletGeoJSON.removeLayer(_loadedFeatures[oFeature.id]);
                                 leafletGeoJSON.addData(oFeature);
                             }
                         });
                     }
 
-                    function updateZoom(zoom) {
-                        if (typeof zoom !== 'undefined') {
-                            if (currentResolution !== dyngeojson.levels[zoom].resolution) {
-                                currentResolution = dyngeojson.levels[zoom].resolution;
-                                dyngeojson.features.forEachZ(dyngeojson.levels[zoom].jsonLevel, function (oFeature) {
-                                    addFeature(oFeature.id, oFeature);
-                                });
+                    function removeFeature(featureId, oFeature) {
+                        setTimeout(function () {
+                            if (_loadedFeatures.hasOwnProperty(oFeature.id)) {
+                                leafletGeoJSON.removeLayer(_loadedFeatures[oFeature.id]);
+                                delete _loadedFeatures[oFeature.id];
                             }
-                        }
+                        });
                     }
 
                     dyngeojson.features.onAdd = addFeature;
-                    scope.$watch(function () {
-                        return map.getZoom();
-                    }, function (newValue) {
-                        updateZoom(newValue);
-                    });
+                    dyngeojson.features.onRemove = removeFeature;
                 });
             }
         };
