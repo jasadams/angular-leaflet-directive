@@ -1,4 +1,4 @@
-angular.module("leaflet-directive").directive('drawRectangle', function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout) {
+angular.module("leaflet-directive").directive('drawRectangle', function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout, $parse) {
         return {
             restrict: "A",
             scope: false,
@@ -14,6 +14,7 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
 
                     var container;
                     var links = {};
+                    var drawRectangle = $parse(attrs.drawRectangle);
                     var mapContainer = map.getContainer();
                     var DrawRectangleControl = L.Control.extend({
                         options: {
@@ -109,7 +110,10 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                                     }, 10);
                                     break;
                             }
-                            scope[attrs.drawRectangle] = mode;
+                            if (typeof mode !== 'undefined') {
+                                drawRectangle.assign(scope, mode);
+                            }
+
                         }
                     }
 
@@ -123,7 +127,7 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
 
                     var startCorner, finishCorner, rectangle, bMousedown;
 
-                    scope.$watch('drawRectangle', function (newValue) {
+                    scope.$watch(function() { return drawRectangle(scope); }, function (newValue) {
                         setMode(newValue);
                     });
 

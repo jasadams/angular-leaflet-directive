@@ -1161,7 +1161,8 @@
     'leafletData',
     'leafletHelpers',
     '$timeout',
-    function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout) {
+    '$parse',
+    function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout, $parse) {
       return {
         restrict: 'A',
         scope: false,
@@ -1174,6 +1175,7 @@
           controller.getMap().then(function (map) {
             var container;
             var links = {};
+            var drawRectangle = $parse(attrs.drawRectangle);
             var mapContainer = map.getContainer();
             var DrawRectangleControl = L.Control.extend({
                 options: { position: 'topleft' },
@@ -1254,7 +1256,9 @@
                   }, 10);
                   break;
                 }
-                scope[attrs.drawRectangle] = mode;
+                if (typeof mode !== 'undefined') {
+                  drawRectangle.assign(scope, mode);
+                }
               }
             }
             function onKeyPress(e) {
@@ -1263,7 +1267,9 @@
             map.addControl(new DrawRectangleControl());
             L.DomEvent.on(mapContainer, 'keypress', onKeyPress);
             var startCorner, finishCorner, rectangle, bMousedown;
-            scope.$watch('drawRectangle', function (newValue) {
+            scope.$watch(function () {
+              return drawRectangle(scope);
+            }, function (newValue) {
               setMode(newValue);
             });
             var scrollTimeout = null;
