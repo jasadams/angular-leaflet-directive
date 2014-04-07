@@ -8,6 +8,7 @@ angular.module("leaflet-directive").factory('leafletMapDefaults', function ($q, 
             scrollWheelZoom: true,
             zoomControl: true,
             zoomsliderControl: false,
+            attributionPrefix: null,
             zoomControlPosition: 'topleft',
             attributionControl: true,
             controls: {
@@ -89,6 +90,7 @@ angular.module("leaflet-directive").factory('leafletMapDefaults', function ($q, 
                 newDefaults.scrollWheelZoom = isDefined(userDefaults.scrollWheelZoom) ?  userDefaults.scrollWheelZoom : newDefaults.doubleClickZoom;
                 newDefaults.zoomControl = isDefined(userDefaults.zoomControl) ?  userDefaults.zoomControl : newDefaults.zoomControl;
                 newDefaults.zoomsliderControl = isDefined(userDefaults.zoomsliderControl) ?  userDefaults.zoomsliderControl : newDefaults.zoomsliderControl;
+                newDefaults.attributionPrefix = isDefined(userDefaults.attributionPrefix) ?  userDefaults.attributionPrefix : newDefaults.attributionPrefix;
                 newDefaults.attributionControl = isDefined(userDefaults.attributionControl) ?  userDefaults.attributionControl : newDefaults.attributionControl;
                 newDefaults.tileLayer = isDefined(userDefaults.tileLayer) ? userDefaults.tileLayer : newDefaults.tileLayer;
                 newDefaults.zoomControlPosition = isDefined(userDefaults.zoomControlPosition) ? userDefaults.zoomControlPosition : newDefaults.zoomControlPosition;

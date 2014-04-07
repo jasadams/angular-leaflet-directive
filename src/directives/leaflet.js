@@ -80,6 +80,10 @@ angular.module("leaflet-directive", []).directive('leaflet', function ($q, leafl
                 map.zoomsliderControl.removeFrom(map);
             }
 
+            if (isDefined(map.attributionControl) && isDefined(defaults.attributionPrefix)) {
+                map.attributionControl.setPrefix(defaults.attributionPrefix);
+            }
+
 
             // if no event-broadcast attribute, all events are broadcasted
             if (!isDefined(attrs.eventBroadcast)) {

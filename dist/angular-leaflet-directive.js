@@ -81,6 +81,9 @@
           if (isDefined(map.zoomsliderControl) && isDefined(defaults.zoomsliderControl) && defaults.zoomsliderControl === false) {
             map.zoomsliderControl.removeFrom(map);
           }
+          if (isDefined(map.attributionControl) && isDefined(defaults.attributionPrefix)) {
+            map.attributionControl.setPrefix(defaults.attributionPrefix);
+          }
           // if no event-broadcast attribute, all events are broadcasted
           if (!isDefined(attrs.eventBroadcast)) {
             var logic = 'broadcast';
@@ -1467,6 +1470,7 @@
           scrollWheelZoom: true,
           zoomControl: true,
           zoomsliderControl: false,
+          attributionPrefix: null,
           zoomControlPosition: 'topleft',
           attributionControl: true,
           controls: {
@@ -1533,6 +1537,7 @@
             newDefaults.scrollWheelZoom = isDefined(userDefaults.scrollWheelZoom) ? userDefaults.scrollWheelZoom : newDefaults.doubleClickZoom;
             newDefaults.zoomControl = isDefined(userDefaults.zoomControl) ? userDefaults.zoomControl : newDefaults.zoomControl;
             newDefaults.zoomsliderControl = isDefined(userDefaults.zoomsliderControl) ? userDefaults.zoomsliderControl : newDefaults.zoomsliderControl;
+            newDefaults.attributionPrefix = isDefined(userDefaults.attributionPrefix) ? userDefaults.attributionPrefix : newDefaults.attributionPrefix;
             newDefaults.attributionControl = isDefined(userDefaults.attributionControl) ? userDefaults.attributionControl : newDefaults.attributionControl;
             newDefaults.tileLayer = isDefined(userDefaults.tileLayer) ? userDefaults.tileLayer : newDefaults.tileLayer;
             newDefaults.zoomControlPosition = isDefined(userDefaults.zoomControlPosition) ? userDefaults.zoomControlPosition : newDefaults.zoomControlPosition;
