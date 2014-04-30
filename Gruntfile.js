@@ -253,6 +253,7 @@ module.exports = function(grunt) {
                     'src/directives/eventBroadcast.js',
                     'src/directives/maxbounds.js',
                     'src/directives/dyngeojson.js',
+                    'src/directives/markerCluster.js',
                     'src/directives/drawRectangle.js',
                     'src/services/leafletData.js',
                     'src/services/leafletMapDefaults.js',

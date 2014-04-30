@@ -12,6 +12,7 @@ angular.module("leaflet-directive", []).directive('leaflet', function ($q, leafl
             legend: '=legend',
             geojson: '=geojson',
             dyngeojson: '=dyngeojson',
+            markerCluster: '=markerCluster',
             paths: '=paths',
             tiles: '=tiles',
             layers: '=layers',
