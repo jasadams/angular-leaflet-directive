@@ -40,9 +40,9 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                                 return domVar;
                             }
 
-                            links.move = _createButton('Drag to pan map', '<i class="fa fa-arrows"></i>', moveClick);
-                            links.select = _createButton('Draw to select', '<i class="fa fa-pencil"></i>', selectClick);
-                            links.erase = _createButton('Draw to erase', '<i class="fa fa-eraser"></i>', eraseClick);
+                            links.move = _createButton('Drag on the map to pan', '<i class="fa fa-arrows"></i>', moveClick);
+                            links.select = _createButton('Draw a rectangle to assign territory', '<i class="fa fa-pencil"></i>', selectClick);
+                            links.erase = _createButton('Draw a rectangle to un-assign territory', '<i class="fa fa-eraser"></i>', eraseClick);
 
                             return container;
                         }
@@ -149,6 +149,7 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                         }
                     }
 
+                    var startBounds = null;
                     function mousedown(e) {
                         if ((mode === 'select' || mode === 'erase') && !bMousedown) {
                             bMousedown = true;
@@ -158,8 +159,7 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                             startCorner = e.latlng;
                             map.on('mousemove', mousemove);
                             map.on('mouseup', mouseup);
-                            var bounds = [startCorner, startCorner];
-                            $rootScope.$broadcast('leafletDirectiveMap.drawRectangleStart', e, bounds, mode);
+                            startBounds = [startCorner, startCorner];
                         }
                     }
 
@@ -173,6 +173,8 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                         }
 
                         if (bMousedown && (mode === 'select' || mode === 'erase')) {
+                            $rootScope.$broadcast('leafletDirectiveMap.drawRectangleStart', e, startBounds, mode);
+
                             var currentCorner = e.latlng;
                             var bounds = [startCorner, currentCorner];
                             if (!rectangle) {

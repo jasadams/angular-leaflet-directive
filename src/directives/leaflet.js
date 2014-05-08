@@ -12,6 +12,7 @@ angular.module("leaflet-directive", []).directive('leaflet', function ($q, leafl
             legend: '=legend',
             geojson: '=geojson',
             dyngeojson: '=dyngeojson',
+            leafletMap: '=leafletMap',
             markerCluster: '=markerCluster',
             paths: '=paths',
             tiles: '=tiles',
@@ -100,6 +101,9 @@ angular.module("leaflet-directive", []).directive('leaflet', function ($q, leafl
             // Resolve the map object to the promises
             map.whenReady(function() {
                 leafletData.setMap(map, attrs.id);
+                if (attrs.leafletMap) {
+                    scope.leafletMap = map;
+                }
             });
 
             scope.$on('$destroy', function () {
