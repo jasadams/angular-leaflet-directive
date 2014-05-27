@@ -1097,6 +1097,11 @@
                 layer.bindLabel(feature.properties.description);
               }
               layer.on({
+                contextmenu: function (e) {
+                  if (typeof dyngeojson.popUpContent === 'function') {
+                    L.popup(dyngeojson.popUpOptions).setLatLng(e.latlng).setContent(dyngeojson.popUpContent(e.target.feature.id)).openOn(map);
+                  }
+                },
                 mouseover: function (e) {
                   safeApply(leafletScope, function () {
                     dyngeojson.selected = feature;
@@ -1223,6 +1228,7 @@
   ]);
   angular.module('leaflet-directive').directive('drawRectangle', [
     '$window',
+    '$document',
     '$compile',
     '$log',
     '$rootScope',
@@ -1230,7 +1236,7 @@
     'leafletHelpers',
     '$timeout',
     '$parse',
-    function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout, $parse) {
+    function ($window, $document, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout, $parse) {
       return {
         restrict: 'A',
         scope: false,
@@ -1285,7 +1291,7 @@
             function eraseClick() {
               setMode('erase');
             }
-            function setMode(newMode) {
+            function setMode(newMode, temp) {
               if (!isDefined(newMode) || newMode !== mode) {
                 switch (newMode) {
                 case 'select':
@@ -1298,6 +1304,10 @@
                     map.dragging.disable();
                     map.on('mousedown', mousedown);
                   }, 10);
+                  // Box zoom uses ctrl-drag to zoom to the box, we want to use it to temporarily enable move mode
+                  if (!temp) {
+                    map.boxZoom.disable();
+                  }
                   break;
                 case 'erase':
                   mode = 'erase';
@@ -1309,6 +1319,9 @@
                     map.dragging.disable();
                     map.on('mousedown', mousedown);
                   }, 10);
+                  if (!temp) {
+                    map.boxZoom.disable();
+                  }
                   break;
                 case 'move':
                   mode = 'move';
@@ -1322,6 +1335,9 @@
                     map.dragging.enable();
                     map.off('mousedown', mousedown);
                   }, 10);
+                  if (!temp) {
+                    map.boxZoom.enable();
+                  }
                   break;
                 }
                 if (typeof mode !== 'undefined') {
@@ -1329,11 +1345,44 @@
                 }
               }
             }
-            function onKeyPress(e) {
-              console.log(e);
-            }
             map.addControl(new DrawRectangleControl());
-            L.DomEvent.on(mapContainer, 'keypress', onKeyPress);
+            var permMode = null;
+            $document.on('keydown', function (e) {
+              if (!permMode) {
+                switch (e.keyCode) {
+                case 18:
+                  if (mode !== 'select') {
+                    permMode = mode;
+                    setMode('select', true);
+                  }
+                  break;
+                case 91:
+                  if (mode !== 'erase') {
+                    permMode = mode;
+                    setMode('erase', true);
+                  }
+                  break;
+                }
+              }
+            });
+            $document.on('keyup', function (e) {
+              if (permMode) {
+                switch (e.keyCode) {
+                case 18:
+                  if (mode === 'select') {
+                    setMode(permMode);
+                    permMode = null;
+                  }
+                  break;
+                case 91:
+                  if (mode === 'erase') {
+                    setMode(permMode);
+                    permMode = null;
+                  }
+                  break;
+                }
+              }
+            });
             var startCorner, finishCorner, rectangle, bMousedown;
             scope.$watch(function () {
               return drawRectangle(scope);

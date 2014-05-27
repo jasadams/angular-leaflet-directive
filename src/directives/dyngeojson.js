@@ -13,6 +13,7 @@ angular.module("leaflet-directive").directive('dyngeojson', function ($log, $roo
 
                 var dyngeojson = scope.$eval(attrs.dyngeojson);
                 var _loadedFeatures = {};
+
                 controller.getMap().then(function (map) {
                     if (!(isDefined(dyngeojson))) {
                         return;
@@ -29,6 +30,15 @@ angular.module("leaflet-directive").directive('dyngeojson', function ($log, $roo
                         }
 
                         layer.on({
+                            contextmenu: function (e) {
+                                if (typeof dyngeojson.popUpContent === 'function') {
+                                    L.popup(dyngeojson.popUpOptions)
+                                        .setLatLng(e.latlng)
+                                        .setContent(dyngeojson.popUpContent(e.target.feature.id))
+                                        .openOn(map);
+
+                                }
+                            },
                             mouseover: function (e) {
                                 safeApply(leafletScope, function () {
                                     dyngeojson.selected = feature;

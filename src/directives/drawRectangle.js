@@ -1,4 +1,4 @@
-angular.module("leaflet-directive").directive('drawRectangle', function ($window, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout, $parse) {
+angular.module("leaflet-directive").directive('drawRectangle', function ($window, $document, $compile, $log, $rootScope, leafletData, leafletHelpers, $timeout, $parse) {
         return {
             restrict: "A",
             scope: false,
@@ -11,6 +11,7 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
 
                 var mode;
                 controller.getMap().then(function (map) {
+
 
                     var container;
                     var links = {};
@@ -71,7 +72,7 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                         setMode('erase');
                     }
 
-                    function setMode(newMode) {
+                    function setMode(newMode, temp) {
                         if (!isDefined(newMode) || newMode !== mode) {
                             switch (newMode) {
                                 case 'select':
@@ -84,6 +85,10 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                                         map.dragging.disable();
                                         map.on('mousedown', mousedown);
                                     }, 10);
+                                    // Box zoom uses ctrl-drag to zoom to the box, we want to use it to temporarily enable move mode
+                                    if (!temp) {
+                                        map.boxZoom.disable();
+                                    }
                                     break;
                                 case 'erase':
                                     mode = 'erase';
@@ -95,6 +100,9 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                                         map.dragging.disable();
                                         map.on('mousedown', mousedown);
                                     }, 10);
+                                    if (!temp) {
+                                        map.boxZoom.disable();
+                                    }
                                     break;
                                 case 'move':
                                     mode = 'move';
@@ -108,6 +116,9 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                                         map.dragging.enable();
                                         map.off('mousedown', mousedown);
                                     }, 10);
+                                    if (!temp) {
+                                        map.boxZoom.enable();
+                                    }
                                     break;
                             }
                             if (typeof mode !== 'undefined') {
@@ -117,13 +128,46 @@ angular.module("leaflet-directive").directive('drawRectangle', function ($window
                         }
                     }
 
-
-                    function onKeyPress(e) {
-                        console.log(e);
-                    }
-
                     map.addControl(new DrawRectangleControl());
-                    L.DomEvent.on(mapContainer, 'keypress', onKeyPress);
+
+                    var permMode = null;
+                    $document.on('keydown', function(e){
+                        if (!permMode) {
+                            switch (e.keyCode) {
+                                case 18:
+                                    if (mode !== 'select') {
+                                        permMode = mode;
+                                        setMode('select', true);
+                                    }
+                                    break;
+                                case 91:
+                                    if (mode !== 'erase') {
+                                        permMode = mode;
+                                        setMode('erase', true);
+                                    }
+                                    break;
+                            }
+                        }
+                    });
+
+                    $document.on('keyup', function(e){
+                        if (permMode) {
+                            switch (e.keyCode) {
+                                case 18:
+                                    if (mode === 'select') {
+                                        setMode(permMode);
+                                        permMode = null;
+                                    }
+                                    break;
+                                case 91:
+                                    if (mode === 'erase') {
+                                        setMode(permMode);
+                                        permMode = null;
+                                    }
+                                    break;
+                            }
+                        }
+                    });
 
                     var startCorner, finishCorner, rectangle, bMousedown;
 
