@@ -1076,7 +1076,8 @@
     '$timeout',
     'leafletData',
     'leafletHelpers',
-    function ($log, $rootScope, $timeout, leafletData, leafletHelpers) {
+    '$compile',
+    function ($log, $rootScope, $timeout, leafletData, leafletHelpers, $compile) {
       return {
         restrict: 'A',
         scope: false,
@@ -1099,7 +1100,9 @@
               layer.on({
                 contextmenu: function (e) {
                   if (typeof dyngeojson.popUpContent === 'function') {
-                    L.popup(dyngeojson.popUpOptions).setLatLng(e.latlng).setContent(dyngeojson.popUpContent(e.target.feature.id)).openOn(map);
+                    var popup = L.popup(dyngeojson.popUpOptions).setLatLng(e.latlng);
+                    var content = $compile(dyngeojson.popUpContent(e.target.feature.id))(scope);
+                    popup.setContent(content[0]).openOn(map);
                   }
                 },
                 mouseover: function (e) {
