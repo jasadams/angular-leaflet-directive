@@ -1350,39 +1350,38 @@
             }
             map.addControl(new DrawRectangleControl());
             var permMode = null;
+            var eraseKeyCodes = [18];
+            var selectKeyCodes;
+            if (navigator.userAgent.indexOf('Mac OS X') !== -1) {
+              selectKeyCodes = [
+                91,
+                93,
+                224
+              ];
+            } else {
+              selectKeyCodes = [17];
+            }
             $document.on('keydown', function (e) {
               if (!permMode) {
-                switch (e.keyCode) {
-                case 18:
-                  if (mode !== 'select') {
-                    permMode = mode;
-                    setMode('select', true);
-                  }
-                  break;
-                case 91:
-                  if (mode !== 'erase') {
-                    permMode = mode;
-                    setMode('erase', true);
-                  }
-                  break;
+                if (selectKeyCodes.indexOf(e.keyCode) >= 0 && mode !== 'select') {
+                  permMode = mode;
+                  setMode('select', true);
+                }
+                if (eraseKeyCodes.indexOf(e.keyCode) >= 0 && mode !== 'erase') {
+                  permMode = mode;
+                  setMode('erase', true);
                 }
               }
             });
             $document.on('keyup', function (e) {
               if (permMode) {
-                switch (e.keyCode) {
-                case 18:
-                  if (mode === 'select') {
-                    setMode(permMode);
-                    permMode = null;
-                  }
-                  break;
-                case 91:
-                  if (mode === 'erase') {
-                    setMode(permMode);
-                    permMode = null;
-                  }
-                  break;
+                if (selectKeyCodes.indexOf(e.keyCode) >= 0 && mode === 'select') {
+                  setMode(permMode);
+                  permMode = null;
+                }
+                if (eraseKeyCodes.indexOf(e.keyCode) >= 0 && mode === 'erase') {
+                  setMode(permMode);
+                  permMode = null;
                 }
               }
             });
