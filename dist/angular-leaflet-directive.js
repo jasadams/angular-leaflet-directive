@@ -1143,7 +1143,6 @@
             }, dyngeojson.options);
             leafletData.setGeoJSON(leafletGeoJSON);
             leafletGeoJSON.addTo(map);
-            $rootScope.$broadcast('leafletDirectiveMap.dyngeojsonSetupDone', leafletGeoJSON);
             function addFeature(featureId, oFeature) {
               setTimeout(function () {
                 if (!_loadedFeatures.hasOwnProperty(oFeature.id)) {
@@ -1869,7 +1868,10 @@
             'draw:editstart',
             'draw:editstop',
             'draw:deletestart',
-            'draw:deletestop'
+            'draw:deletestop',
+            'geojsonMouseover',
+            'geojsonMouseout',
+            'geojsonClick'
           ];
         },
         genDispatchMapEvent: function (scope, eventName, logic) {

@@ -76,7 +76,6 @@ angular.module("leaflet-directive").directive('dyngeojson', function ($log, $roo
                     }, dyngeojson.options);
                     leafletData.setGeoJSON(leafletGeoJSON);
                     leafletGeoJSON.addTo(map);
-                    $rootScope.$broadcast('leafletDirectiveMap.dyngeojsonSetupDone', leafletGeoJSON);
 
 
                     function addFeature(featureId, oFeature) {

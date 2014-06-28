@@ -182,7 +182,10 @@ angular.module("leaflet-directive").factory('leafletEvents', function ($rootScop
                 'draw:editstart',
                 'draw:editstop',
                 'draw:deletestart',
-                'draw:deletestop'
+                'draw:deletestop',
+                'geojsonMouseover',
+                'geojsonMouseout',
+                'geojsonClick'
             ];
         },
 
