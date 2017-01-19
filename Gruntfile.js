@@ -131,6 +131,7 @@ module.exports = function(grunt) {
                 unused: true,
                 trailing: true,
                 smarttabs: true,
+                reporterOutput: "",
                 globals: {
                     angular: false,
                     L: false,
@@ -182,7 +183,7 @@ module.exports = function(grunt) {
                 //logLevel: 'DEBUG',
                 reporters: ['progress', 'coverage'],
                 preprocessors: {
-                    'dist/angular-leaflet-directive.js': ['coverage']
+                    'dist/gr': ['coverage']
                 },
                 coverageReporter: {
                     type : 'lcov',

@@ -894,30 +894,34 @@
           }
           var isDefined = leafletHelpers.isDefined, leafletScope = controller.getLeafletScope(), controls = leafletScope.controls;
           controller.getMap().then(function (map) {
-            if (isDefined(L.Control.Pan) && isDefined(controls.pan)) {
+            if (isDefined(L.Control.Pan)) {
               var panOptions = {
                   position: 'topleft',
-                  panOffset: 500
+                  panOffset: 200
                 };
-              angular.extend(panOptions, controls.pan.options);
+              if (isDefined(controls) && isDefined(controls.pan) && isDefined(controls.pan.options)) {
+                angular.extend(panOptions, controls.pan.options);
+              }
               var panControl = new L.Control.Pan(panOptions);
               map.addControl(panControl);
             }
-            if (isDefined(controls.zoom)) {
-              var zoomOptions = { position: 'topleft' };
+            var zoomOptions = { position: 'topleft' };
+            if (isDefined(controls) && isDefined(controls.zoom)) {
               angular.extend(zoomOptions, controls.zoom.options);
-              var zoomControl = new L.Control.Zoom(zoomOptions);
-              map.addControl(zoomControl);
             }
-            if (isDefined(L.Control.Draw) && isDefined(controls.draw)) {
+            var zoomControl = new L.Control.Zoom(zoomOptions);
+            map.addControl(zoomControl);
+            if (isDefined(L.Control.Draw)) {
               var drawnItems = new L.FeatureGroup();
               map.addLayer(drawnItems);
               var options = { edit: { featureGroup: drawnItems } };
-              angular.extend(options, controls.draw.options);
+              if (isDefined(controls) && isDefined(controls.draw)) {
+                angular.extend(options, controls.draw.options);
+              }
               var drawControl = new L.Control.Draw(options);
               map.addControl(drawControl);
             }
-            if (isDefined(controls.custom)) {
+            if (isDefined(controls) && isDefined(controls.custom)) {
               for (var i in controls.custom) {
                 map.addControl(controls.custom[i]);
               }
